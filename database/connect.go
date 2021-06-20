@@ -7,7 +7,7 @@ import(
 )
 
 
-func Connect(){
+func Connect() (db *sql.DB){
 	dsn := "root:12345678@tcp(127.0.0.1:3306)/online_shop?charset=utf8mb4&parseTime=True&loc=Local"
 	db, err := sql.Open("mysql", dsn)
 	
@@ -15,6 +15,6 @@ func Connect(){
 		fmt.Println("ko connect")
         panic(err.Error())
     }
-	defer db.Close()
+	return db
 }
 
