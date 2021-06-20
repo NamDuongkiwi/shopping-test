@@ -9,3 +9,4 @@ type Cart struct{
 	CreatedAt	int64	`json:"created_at" gorm:"autoUpdateTime:milli"`
 	Quantity	int		`json:"quantity"`
 }
+

@@ -2,17 +2,19 @@ package database
 
 import(
 	"fmt"
-	"gorm.io/driver/mysql"
-	"gorm.io/gorm"
+    "database/sql"
+    _ "github.com/go-sql-driver/mysql"
 )
 
 
 func Connect(){
-	db, err := gorm.Open("mysql", "root:12345678@/online_shop?charset=utf8&parseTime=True&loc=Local")
+	dsn := "root:12345678@tcp(127.0.0.1:3306)/online_shop?charset=utf8mb4&parseTime=True&loc=Local"
+	db, err := sql.Open("mysql", dsn)
+	
 	if err != nil {
-		panic("Cannot connect to database")
-	} else {
-		fmt.Println("Successfully")
-	}
+		fmt.Println("ko connect")
+        panic(err.Error())
+    }
 	defer db.Close()
 }
+
