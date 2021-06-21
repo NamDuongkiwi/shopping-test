@@ -48,11 +48,33 @@ func GetAllProducts(c *fiber.Ctx) error{
 		if err != nil {
             panic(err.Error())
         }
+
 		product.Image = GetImageProduct(product.ID)
-		product.Rating = 4.5
+		product.Rating = GetRating(product.ID)		
 		products = append(products, product)
 	}
 	return c.JSON(products)
+}
+
+func GetRating(id int) float32 {
+	db := database.Connect()
+	defer db.Close()
+	rows, err := db.Query("SELECT SUM(rating) FROM review WHERE product_id = ? GROUP BY product_id", id)
+	if err != nil {
+		fmt.Println("die roi")
+	}
+	var sum float32
+	if rows.Next(){
+		rows.Scan(&sum)
+	}
+	//rows.Scan(&sum)
+	rows, err = db.Query("SELECT COUNT(*) FROM review WHERE product_id = ? GROUP BY product_id", id)
+	var count float32
+	if rows.Next(){
+		rows.Scan(&count)
+	}
+	fmt.Println(sum)
+	return sum/count
 }
 
 func GetImageProduct(id int) []string {
@@ -87,7 +109,7 @@ func CreateProduct(c *fiber.Ctx) error{
 			"message": "can't parse request",
 		})
 	}
-	_ , err = db.Query("INSERT INTO product VALUES (?, ?, ?, ?, ?, ?)", product.ID, product.Name, product.Category_id, product.Price, currentTime, currentTime)
+	_ , err = db.Query("INSERT INTO product VALUES (?, ?, ?, ?, ?, ?, ?)", product.ID, product.Name, product.Category_id, product.Price,product.IsSale ,currentTime, currentTime)
 	if err != nil {
 		return c.Status(fiber.StatusBadRequest).
 		JSON(fiber.Map{
@@ -130,8 +152,10 @@ func GetProductbyID(c *fiber.Ctx) error{
 		row.Scan(&product.ID, &product.Name, &product.Category_id, &product.Price, &product.IsSale, &product.CreatedAt, &product.ModifiedAt)
 	}
 	product.Image = GetImageProduct(product.ID)
+	product.Rating = GetRating(Id)
 	return c.JSON(product)
 }
+
 
 func DeleteProduct(c *fiber.Ctx)error{
 	db:=database.Connect()

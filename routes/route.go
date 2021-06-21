@@ -10,3 +10,10 @@ func ConfigProductRouter(router *fiber.Router) {
 	(*router).Get("/:id", controller.GetProductbyID)
 	(*router).Delete("/:id", controller.DeleteProduct)
 }
+
+func ConfigReviewRouter(router *fiber.Router){
+	(*router).Post("/", controller.CreateReview)
+	(*router).Get("/:id", controller.GetReview)
+}
+
+

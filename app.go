@@ -3,7 +3,6 @@ package main
 import (
 	"github.com/NamDuongkiwi/shopping-backend/routes"
 	"github.com/gofiber/fiber/v2"
-
 )
 
 
@@ -13,7 +12,13 @@ func main() {
 		CaseSensitive: true,
 		StrictRouting: true,
 	})
+
+	//fmt.Println(controller.GetRating(1))
 	productRouter := app.Group("/api/product")
 	routes.ConfigProductRouter(&productRouter)
+
+	reviewRouter := app.Group("/api/review")
+	routes.ConfigReviewRouter(&reviewRouter)
+
 	app.Listen(":3000")
 }
