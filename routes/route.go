@@ -6,4 +6,7 @@ import(
 
 func ConfigProductRouter(router *fiber.Router) {
 	(*router).Get("/", controller.GetAllProducts)
+	(*router).Post("/", controller.CreateProduct)
+	(*router).Get("/:id", controller.GetProductbyID)
+	(*router).Delete("/:id", controller.DeleteProduct)
 }

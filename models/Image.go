@@ -1,6 +1,6 @@
 package models
 
 type Image struct{
-	ProductId	Product `json:"product_id"`
+	ProductId	int 
 	ImageUrl	string `json:"url"`
 }
