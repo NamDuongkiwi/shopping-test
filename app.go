@@ -19,6 +19,9 @@ func main() {
 
 	reviewRouter := app.Group("/api/review")
 	routes.ConfigReviewRouter(&reviewRouter)
+	
+	userRouter := app.Group("/api/user")
+	routes.ConfigUserRouter(&userRouter)
 
 	app.Listen(":3000")
 }

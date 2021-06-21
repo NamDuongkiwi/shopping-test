@@ -7,6 +7,6 @@ type User struct{
 	Password	string	`json:"password"`
 	Gender		string	`json:"gender"`
 	Birthday	string	`json:"birthday"`
-	CreatedAt	int64	`json:"created_at" gorm:"autoUpdateTime:milli"`
+	CreatedAt	string	`json:"created_at"`
 	Avatar		string	`json:"avatar_url"`
 }
